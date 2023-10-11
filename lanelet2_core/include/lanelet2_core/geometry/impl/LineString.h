@@ -6,6 +6,14 @@
 #include "lanelet2_core/primitives/LineString.h"
 #include "lanelet2_core/primitives/Traits.h"
 
+namespace boost::geometry::strategies::distance::services {
+
+template <typename CT>
+struct strategy_converter<lanelet::helper::ProjectedPoint<CT>> : strategy_converter<boost::geometry::strategy::distance::projected_point<>>
+{
+};
+} // namespace boost::geometry::strategies::distance::services
+
 namespace lanelet {
 namespace geometry {
 namespace internal {

@@ -33,10 +33,8 @@ message(STATUS "GeographicLib Version: ${GeographicLib_VERSION}")
 enable_testing()
 add_subdirectory(lanelet2_core)
 add_subdirectory(lanelet2_io)
-add_subdirectory(lanelet2_projection)
 add_subdirectory(lanelet2_traffic_rules)
 add_subdirectory(lanelet2_routing)
-add_subdirectory(lanelet2_validation)
 
 # add_library(lanelet2 INTERFACE)
 

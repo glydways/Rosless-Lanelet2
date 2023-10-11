@@ -31,6 +31,21 @@ bool equals<lanelet::Polygon3d, lanelet::Polygon3d>(const lanelet::Polygon3d& ge
                                                     const lanelet::Polygon3d& geometry2) {
   return geometry1 == geometry2;
 }
+template <>
+bool equals<lanelet::BoundingBox2d, lanelet::BoundingBox2d>(const lanelet::BoundingBox2d& geometry1,
+                                                    const lanelet::BoundingBox2d& geometry2) {
+  return geometry1.min() == geometry2.min();
+}
+template <>
+bool equals<Eigen::Matrix<double, 2, 1, 2>, Eigen::Matrix<double, 2, 1, 2>>(const Eigen::Matrix<double, 2, 1, 2>& geometry1,
+                                                    const Eigen::Matrix<double, 2, 1, 2>& geometry2) {
+  return geometry1 == geometry2;
+}
+template <>
+bool equals<lanelet::Point3d, lanelet::Point3d>(const lanelet::Point3d& geometry1,
+                                                    const lanelet::Point3d& geometry2) {
+  return geometry1 == geometry2;
+}
 }  // namespace geometry
 }  // namespace boost
 
