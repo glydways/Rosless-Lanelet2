@@ -23,7 +23,7 @@ target_compile_features(lanelet2_projection
 target_link_libraries(lanelet2_projection
         lanelet2_core
         lanelet2_io
-        GeographicLib)
+        GeographicLib::Geographic)
 
 # 'make install' to the correct locations (provided by GNUInstallDirs).
 install(TARGETS lanelet2_projection EXPORT Lanelet2ProjectionConfig
