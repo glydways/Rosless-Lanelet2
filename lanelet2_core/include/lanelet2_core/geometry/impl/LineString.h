@@ -76,12 +76,32 @@ inline BasicLineString3d invert(const BasicLineString3d& ls) {
 }
 
 template <typename LineStringT, typename BasicPointT>
-bool isLeftOf(const LineStringT& ls, const BasicPointT& p, const helper::ProjectedPoint<BasicPointT>& projectedPoint) {
-  BasicPointT pSeg1 = projectedPoint.result->segmentPoint1;
-  BasicPointT pSeg2 = projectedPoint.result->segmentPoint2;
-  BasicPointT projPoint = projectedPoint.result->projectedPoint;
+bool isLeftOf(const LineStringT& ls, const BasicPointT& p) {
+  std::size_t min_index = 0;
+  if (ls.size() < 2)
+  {
+      return true;
+  }
+  double min_dist = std::numeric_limits<double>::infinity();
+  BasicPointT proj_point;
+  for (std::size_t i = 0; i + 1 < ls.size(); ++i)
+  {
+      BasicPointT first_pt = ls[i];
+      BasicPointT next_pt = ls[i + 1];
+      double projection = (next_pt - first_pt).dot(p - first_pt);
+      proj_point = first_pt + projection * (next_pt - first_pt);
+
+      double distance = (p - proj_point).norm();
+      if (distance < min_dist)
+      {
+          min_dist = distance;
+          min_index = i;
+      }
+  }
+  BasicPointT pSeg1 = ls[min_index];
+  BasicPointT pSeg2 = ls[min_index + 1];
   bool isLeft = pointIsLeftOf(pSeg1, pSeg2, p);
-  if (pSeg2 == projPoint) {
+  if (pSeg2 == proj_point) {
     auto nextSegPointIt = std::next(findPoint(ls, pSeg2));
     if (nextSegPointIt != ls.end()) {
       // see stackoverflow.com/questions/10583212
@@ -100,7 +120,7 @@ std::pair<double, helper::ProjectedPoint<PointT>> signedDistanceImpl(const LineS
   using BasicPoint = PointT;
   helper::ProjectedPoint<BasicPoint> projectedPoint;
   const auto d = distance(lineString, p, projectedPoint);
-  auto isLeft = isLeftOf(lineString, p, projectedPoint);
+  auto isLeft = isLeftOf(lineString, p);
   return {isLeft ? d : -d, projectedPoint};
 }
 
