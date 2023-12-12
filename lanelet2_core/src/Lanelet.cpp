@@ -16,7 +16,9 @@ using OptDistance = boost::optional<double>;
 namespace {
 // gcc does not like boost optional in release builds
 #pragma GCC diagnostic push
+#if !defined(__has_warning) || __has_warning("-Wmaybe-uninitialized")
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
 template <typename Point>
 auto centerpoint(Point p1, Point p2) {
   bg::add_point(p1, p2);

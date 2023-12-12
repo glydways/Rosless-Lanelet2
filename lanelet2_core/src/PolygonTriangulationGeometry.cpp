@@ -126,7 +126,7 @@ PolygonIteratorPair getAlignedIterators(const IndexedPolygon& poly, const Indexe
                             " not found in indices");
   }
   const auto dist = std::distance(itPair.first, itPair.second);
-  if (dist == -1 || dist == poly.size() - 1) {
+  if (dist == -1 || dist == static_cast<int64_t>(poly.size()) - 1) {
     std::swap(itPair.first, itPair.second);
   }
   return itPair;
@@ -146,27 +146,6 @@ IndexedSegments getSegmentsExcept(const IndexedPolygon& p, const IndexedSegment&
     if (seg != excluded && seg != flip(excluded)) {
       res.emplace_back(seg);
     }
-  }
-  return res;
-}
-
-IndexedSegments getSegmentIndexesExcept(const IndexedPolygon& p, const IndexedSegment& excluded) {
-  IndexedSegments res;
-  res.reserve(p.size() - 1);
-  for (size_t i = 0; i < p.size(); ++i) {
-    IndexedSegment seg{p.at(i), p.at((i + 1) % p.size())};
-    if (seg != excluded && seg != flip(excluded)) {
-      res.emplace_back(IndexedSegment{i, (i + 1) % p.size()});
-    }
-  }
-  return res;
-}
-
-IndexedPolygon removeSegment(const IndexedPolygon& poly, const IndexedSegment& excluded) {
-  auto itP = getAlignedIterators(poly, excluded);
-  IndexedPolygon res(std::next(itP.second), std::next(itP.first) == poly.end() ? itP.first : poly.end());
-  if (itP.first != std::prev(poly.end())) {
-    res.insert(res.end(), poly.begin(), itP.first);
   }
   return res;
 }

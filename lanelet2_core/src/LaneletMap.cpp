@@ -80,10 +80,6 @@ template <typename T>
 inline Id getId(const T& obj) {
   return obj.id();
 }
-template <>
-inline Id getId<RegulatoryElementPtr>(const RegulatoryElementPtr& obj) {
-  return obj->id();
-}
 
 template <typename T>
 std::unordered_map<Id, T> toMap(const std::vector<T>& vec) {

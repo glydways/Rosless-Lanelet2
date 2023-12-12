@@ -328,7 +328,7 @@ class ConnectedPathIterator {
       path_->push_back(v);
       movingForward_ = true;
     }
-    void finish_vertex(typename GraphT::vertex_descriptor v, const GraphT& /*g*/) {  // NOLINT
+    void finish_vertex([[maybe_unused]] typename GraphT::vertex_descriptor v, const GraphT& /*g*/) {  // NOLINT
       if (movingForward_) {
         (*f_)(*path_);
       }
